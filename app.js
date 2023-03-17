@@ -108,30 +108,34 @@ const questions = [
 
 const answers = [
   {
-      combination: ["New York", "Pizza", "Traditional"],
-      text: "Blue Cheese",
-      image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjczMTc0fQ&w=400&h=400&fit=fillmax",
-      alt: "Blue cheese"
+    combination: ['New York', 'Pizza', 'Traditional'],
+    text: 'Blue Cheese',
+    image:
+      'https://images.unsplash.com/photo-1452195100486-9cc805987862?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjczMTc0fQ&w=400&h=400&fit=fillmax',
+    alt: 'Blue cheese',
   },
   {
-      combination: ["Austin", "Pasta", "Modern"],
-      text: "Cheddar",
-      image: "https://images.unsplash.com/photo-1618164435735-413d3b066c9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-      alt: "Cheddar cheese"
+    combination: ['Austin', 'Pasta', 'Modern'],
+    text: 'Cheddar',
+    image:
+      'https://images.unsplash.com/photo-1618164435735-413d3b066c9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+    alt: 'Cheddar cheese',
   },
   {
-      combination: ["Portland", "Sandwich", "Mountains"],
-      text: "Feta",
-      image: "https://images.unsplash.com/photo-1626957341926-98752fc2ba90?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-      alt: "Feta cheese"
+    combination: ['Portland', 'Sandwich', 'Mountains'],
+    text: 'Feta',
+    image:
+      'https://images.unsplash.com/photo-1626957341926-98752fc2ba90?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+    alt: 'Feta cheese',
   },
   {
-      combination: ["New Orleans", "Hamburger", "House"],
-      text: "Halloumi",
-      image: "https://images.unsplash.com/photo-1505281036624-fac2862357b8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1469&q=80",
-      alt: "Halloumi"
-  }
-]
+    combination: ['New Orleans', 'Hamburger', 'House'],
+    text: 'Halloumi',
+    image:
+      'https://images.unsplash.com/photo-1505281036624-fac2862357b8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1469&q=80',
+    alt: 'Halloumi',
+  },
+];
 
 const unansweredQuestions = new Set();
 const chosenAnswers = new Set();
@@ -198,6 +202,8 @@ const handleClick = (questionId, chosenAnswer) => {
   console.log(chosenAnswers);
   console.log(unansweredQuestions);
 
+  //TODO: add click handling for switching answers
+
   // disableQuestionBlock(questionId, chosenAnswer)
 
   const lowestQuestionId = Math.min(...unansweredQuestions);
@@ -210,21 +216,24 @@ const handleClick = (questionId, chosenAnswer) => {
 };
 
 const showAnswer = () => {
-  let result
-  answers.forEach( answer => {
-    if (
-      chosenAnswers.has(answer.combination[0]) +
-      chosenAnswers.has(answer.combination[1]) +
-      chosenAnswers.has(answer.combination[2])
-      ) {
-        result = answer
-      } else {
-        //first answer object is defaulted
-        result = answer[0]
-      }
-  })
+  let result;
 
-  console.log(result)
+  for (let i = 0; i < answers.length; i++) {
+    const answer = answers[i];
+    if (
+      chosenAnswers.has(answer.combination[0]) &&
+      chosenAnswers.has(answer.combination[1]) &&
+      chosenAnswers.has(answer.combination[2])
+    ) {
+      result = answer;
+      break;
+    } else {
+      //first answer object is defaulted
+      result = answers[0];
+    }
+  }
+
+  console.log(result);
 
   // const answerBlock = document.createElement('div');
   // answerBlock.classList.add('result-block');
