@@ -106,6 +106,36 @@ const questions = [
   },
 ];
 
+const answers = [
+  {
+      combination: ["New York", "Pizza", "Traditional"],
+      text: "Blue Cheese",
+      image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjczMTc0fQ&w=400&h=400&fit=fillmax",
+      alt: "Blue cheese"
+  },
+  {
+      combination: ["Austin", "Pasta", "Modern"],
+      text: "Cheddar",
+      image: "https://images.unsplash.com/photo-1618164435735-413d3b066c9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+      alt: "Cheddar cheese"
+  },
+  {
+      combination: ["Portland", "Sandwich", "Mountains"],
+      text: "Feta",
+      image: "https://images.unsplash.com/photo-1626957341926-98752fc2ba90?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+      alt: "Feta cheese"
+  },
+  {
+      combination: ["New Orleans", "Hamburger", "House"],
+      text: "Halloumi",
+      image: "https://images.unsplash.com/photo-1505281036624-fac2862357b8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1469&q=80",
+      alt: "Halloumi"
+  }
+]
+
+const unansweredQuestions = new Set();
+const chosenAnswers = new Set();
+
 const populateQuestions = () => {
   questions.forEach((question) => {
     const titleBlock = document.createElement('div');
@@ -122,12 +152,16 @@ const populateQuestions = () => {
     answersBlock.id = `${question.id}-questions`;
     answersBlock.classList.add('answer-options');
 
+    unansweredQuestions.add(question.id);
+
     questionDisplay.append(answersBlock);
 
     question.answers.forEach((answer) => {
       const answerBlock = document.createElement('div');
       answerBlock.classList.add('answer-block');
-      answerBlock.addEventListener('click', handleClick);
+      answerBlock.addEventListener('click', () =>
+        handleClick(question.id, answer.text)
+      );
 
       const answerImg = document.createElement('img');
       answerImg.setAttribute('src', answer.image);
@@ -136,16 +170,15 @@ const populateQuestions = () => {
       const answerTitle = document.createElement('h3');
       answerTitle.textContent = answer.text;
 
-      
       const answerInfo = document.createElement('p');
       const imageLink = document.createElement('a');
       imageLink.setAttribute('href', answer.image);
       imageLink.textContent = answer.credit;
-      
+
       const sourceLink = document.createElement('a');
       sourceLink.textContent = 'Unsplash';
       sourceLink.setAttribute('src', 'https://www.unsplash.com');
-      
+
       answerInfo.append(imageLink, ' to ', sourceLink);
 
       answerBlock.append(answerImg, answerTitle, answerInfo);
@@ -153,10 +186,54 @@ const populateQuestions = () => {
     });
     questionDisplay.append(answersBlock);
   });
+  console.log(unansweredQuestions);
 };
 
-const handleClick = () => {
-  console.log('Clicked! - to be updated');
+const handleClick = (questionId, chosenAnswer) => {
+  if (unansweredQuestions.has(questionId)) {
+    chosenAnswers.add(chosenAnswer);
+    unansweredQuestions.delete(questionId);
+  }
+
+  console.log(chosenAnswers);
+  console.log(unansweredQuestions);
+
+  // disableQuestionBlock(questionId, chosenAnswer)
+
+  const lowestQuestionId = Math.min(...unansweredQuestions);
+  location.href = `#${lowestQuestionId}`;
+
+  if (!unansweredQuestions.size) {
+    //scroll to answer div
+    showAnswer();
+  }
+};
+
+const showAnswer = () => {
+  let result
+  answers.forEach( answer => {
+    if (
+      chosenAnswers.has(answer.combination[0]) +
+      chosenAnswers.has(answer.combination[1]) +
+      chosenAnswers.has(answer.combination[2])
+      ) {
+        result = answer
+      } else {
+        //first answer object is defaulted
+        result = answer[0]
+      }
+  })
+
+  console.log(result)
+
+  // const answerBlock = document.createElement('div');
+  // answerBlock.classList.add('result-block');
+
+  // const answerTitle = document.createElement('h3');
+  // answerTitle.textContent = result.text;
+
+  // const answerImage = document.createElement('img');
+  // answerImage.setAttritbute('src', )
 };
 
 populateQuestions();
