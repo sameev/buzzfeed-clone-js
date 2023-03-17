@@ -233,16 +233,19 @@ const showAnswer = () => {
     }
   }
 
-  console.log(result);
+  const answerBlock = document.createElement('div');
+  answerBlock.classList.add('result-block');
 
-  // const answerBlock = document.createElement('div');
-  // answerBlock.classList.add('result-block');
+  const answerTitle = document.createElement('h3');
+  answerTitle.textContent = result.text;
 
-  // const answerTitle = document.createElement('h3');
-  // answerTitle.textContent = result.text;
+  const answerImage = document.createElement('img');
+  answerImage.setAttribute('src', result.image);
+  answerImage.setAttribute('alt', result.alt);
 
-  // const answerImage = document.createElement('img');
-  // answerImage.setAttritbute('src', )
+  answerBlock.append(answerTitle, answerImage);
+
+  answerDisplay.append(answerBlock);
 };
 
 populateQuestions();
