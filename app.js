@@ -204,7 +204,7 @@ const handleClick = (questionId, chosenAnswer) => {
 
   //TODO: add click handling for switching answers
 
-  // disableQuestionBlock(questionId, chosenAnswer)
+  disableQuestionBlock(questionId, chosenAnswer);
 
   const lowestQuestionId = Math.min(...unansweredQuestions);
   location.href = `#${lowestQuestionId}`;
@@ -212,6 +212,7 @@ const handleClick = (questionId, chosenAnswer) => {
   if (!unansweredQuestions.size) {
     //scroll to answer div
     showAnswer();
+    location.href = '#answer';
   }
 };
 
@@ -246,6 +247,24 @@ const showAnswer = () => {
   answerBlock.append(answerTitle, answerImage);
 
   answerDisplay.append(answerBlock);
+
+  const allAnswerBlocks = document.querySelectorAll('.answer-block');
+  Array.from(allAnswerBlocks).forEach((answerBlock) => {
+    answerBlock.classList.add('disable-click');
+  });
+};
+
+const disableQuestionBlock = (questionId, chosenAnswer) => {
+  const currentQuestionBlock = document.getElementById(
+    `${questionId}-questions`
+  );
+
+  Array.from(currentQuestionBlock.children).forEach((block) => {
+    console.log(block.style);
+    if (block.children.item(1).innerText !== chosenAnswer) {
+      block.style.opacity = '50%';
+    }
+  });
 };
 
 populateQuestions();
